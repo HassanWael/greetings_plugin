@@ -15,15 +15,21 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin strings are defined here.
- *
  * @package     local_greetings
- * @category    string
  * @copyright   2023 Hassan digitalAnalytica
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once('../../config.php');
 
-defined('MOODLE_INTERNAL') || die();
+$PAGE->set_context(context_system::instance());
 
-$string['pluginname'] = 'Greetings';
-$string['greetings'] = "Qassup";
+$PAGE->set_pagelayout('classic');
+
+$PAGE->set_title($SITE->fullname);
+$PAGE->set_heading(get_string('pluginname', 'local_greetings', $username));
+$PAGE->set_url(new moodle_url('/local/greetings/index.php'));
+
+$displayname = isloggedin() ? fullname($USER) : "Guest";
+echo $OUTPUT->header();
+echo "<h1>Welcomme to AAU,  $displayname </h1>";
+echo $OUTPUT->footer();
