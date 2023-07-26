@@ -19,21 +19,21 @@
  * @copyright   2023 Hassan digitalAnalytica
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require_once('../../config.php');
-require_once($CFG->dirroot.'/local/greetings/lib.php');
-$PAGE->set_context(context_system::instance());
 
-$PAGE->set_pagelayout('classic');
+function local_greetings_get_greeting($user) {
+    if ($user == null) {
+        return get_string('greetinguser', 'local_greetings');
+    }
 
-$PAGE->set_title($SITE->fullname);
-$PAGE->set_heading(get_string('pluginname', 'local_greetings', $username));
-$PAGE->set_url(new moodle_url('/local/greetings/index.php'));
+    $country = $user->country;
+    switch ($country) {
+        case 'JO':
+            $langstr = 'greetinguserar';
+            break;
+        default:
+            $langstr = 'greetingloggedinuser';
+            break;
+    }
 
-$displayname = isloggedin() ? fullname($USER) : "Guest";
-echo $OUTPUT->header();
-echo "<h1>Welcomme to AAU,  $displayname </h1>";
-echo local_greetings_get_greeting($USER);
-print_string('greetinguser', 'local_greetings', "Hassan Wael");
-echo "Time is : ";
-echo userdate(time());
-echo $OUTPUT->footer();
+    return get_string($langstr, 'local_greetings', fullname($user));
+}
